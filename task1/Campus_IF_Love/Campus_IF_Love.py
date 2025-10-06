@@ -35,9 +35,8 @@ class Character:
         if( effect is None):
             print("系统：没有这种礼物，或礼物没有效果。")
             return
-        value = effect.get(self.name)
+        value = effect.get(self.name, effect.get("default", 0))
         self.change_affinity(value)
-        pass
 
     def change_affinity(self, value):
         self.affinity += value
