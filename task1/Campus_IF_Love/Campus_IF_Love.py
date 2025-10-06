@@ -1,4 +1,5 @@
 import sys
+import random
 
 class Character:
     def __init__(self, name, role, affinity=0):
@@ -8,12 +9,34 @@ class Character:
 
     def talk(self):
         print(f"你正在和{self.name}对话...")
+        
         # TODO: 补充具体对话，对话内容可以从剧本里面截取 根据主人公的不同，使用不同的对话（你也可以根据好感度的不同/对话次数的不同 改变对话和选项）
-        self.change_affinity(5)
+        dialog = DIALOGUES.get(self.name)
+        if dialog:
+            entry = random.choice(dialog)
+            print(self.name + "：" + entry["text"])
+            print("A）" + entry["optionA"])
+            print("B）" + entry["optionB"])
+            choice = input("请选择 A 或 B（大小写均可）：").strip().upper()
+            
+            self.change_affinity(5)
+            if choice == "A":
+                self.change_affinity(5) 
+            else:
+                if(random.randint(0,1)==0):
+                    self.change_affinity(-5)
+        else:
+            self.change_affinity(5)
 
     def give_gift(self, gift):
         print(f"你送给 {self.name} 一份 {gift}。")
         # TODO: 完成礼物好感度逻辑（送出不同礼物加不同的好感度） 并调用change_affinity（）函数 传入此次好感度变化的数值value
+        effect = GIFT_EFFECTS.get(gift)
+        if( effect is None):
+            print("系统：没有这种礼物，或礼物没有效果。")
+            return
+        value = effect.get(self.name)
+        self.change_affinity(value)
         pass
 
     def change_affinity(self, value):
@@ -76,6 +99,16 @@ class Game:
         #注意 除了判断外 你可以同时输出角色的反应 
         #比如在上一位角色的判断中 选择了1时 输出了print("\n你随手挑起一只笔，在纸上几笔勾勒出惊艳的图案，引得周围阵阵惊呼。")
         #写法可以借鉴学姐线
+        if choice == "1":
+            print("\n你给她讲解了思路，并写出伪代码，小白的眼睛亮了起来。")
+            print("小白：『太感谢你了！我明白了！』")
+            self.current_target = self.characters["小白"]
+            self.story_loop()
+            return True
+        else:
+            print("小白看着你离开，眼中闪过一丝失落。")
+            return False
+
 
     def scene_jiejie(self):
         print("\n【场景三：姐姐")
@@ -85,6 +118,15 @@ class Game:
         choice = input("1. 缓缓低眉，毫不在意的开始解释\n2. 头也不抬，保持敲代码的状态\n请选择：")
         # TODO 两种选择 如果选择了1 则进入该位角色的故事线 并返回 True 如果选择了 2 则进入下一位角色的选择 并且返回False
         #要求同上
+        if choice == "1":
+            print("\n你给她讲了代码的关键点，姐姐微微一笑，和你坐在一起")
+            print("姐姐：『我们一起讨论吧』")
+            self.current_target = self.characters["姐姐"]
+            self.story_loop()
+            return True
+        else:
+            print("姐姐转身离开了。")
+            return False
         
     def story_loop(self):
         """角色线主循环"""
@@ -98,21 +140,22 @@ class Game:
             choice = input("请输入选项：")
 
             # TODO 完成输入不同选项时 进行的操作 
-
             #输入1---关于聊天的内容可以自己构思 也可以从剧本中截取
-
-
+            if choice == "1":
+                # 调用角色的talk方法（内部包含对话选择与好感变化）
+                self.current_target.talk()
 
             #输入2----
-
-
+            elif choice == "2":
+                print("可选礼物：鲜花/编程笔记/奶茶/奇怪的石头/精致的钢笔/可爱玩偶/夜宵外卖")
+                gift = input("请输入礼物名称：").strip()
+                self.current_target.give_gift(gift)
 
             #输入3----
+            elif choice == "3":
+                print(f"{self.current_target.name} 当前好感度：{self.current_target.affinity}")
 
-
-
-
-            if choice == "4":
+            elif choice == "4":
                 print("你选择离开，游戏结束。")
                 sys.exit(0)
 
@@ -121,7 +164,6 @@ class Game:
 
             if self.current_target.check_ending():
                 break
-            
 
 
 
