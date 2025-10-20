@@ -20,7 +20,6 @@ def display_status(character_name, current_hp, max_hp):
     """打印格式: 【角色名】HP: 当前血量 / 最大血量"""
     # 在这里写你的代码，用print()函数
     print(f"【{character_name}】HP: {current_hp} / {max_hp}")
-    pass
 
 
 # 任务二：掷骰子
@@ -44,7 +43,6 @@ def choose_nagato_action(nagato_hp, nabiya_hp):
         return 'special'
     else :
         return 'attack'
-    pass
 
 
 # 任务四：计算攻击伤害
@@ -52,7 +50,6 @@ def calculate_attack_damage(num_dice):
     """调用 roll_dice() 函数来计算伤害"""
     # 在这里写你的代码
     return roll_dice(num_dice)
-    pass
 
 
 # 任务五：计算防御值
@@ -60,7 +57,6 @@ def calculate_defense_value(num_dice):
     """调用 roll_dice() 函数来计算防御值"""
     # 在这里写你的代码
     return roll_dice(num_dice)
-    pass
 
 
 # 任务六：检查是否暴击 (BIG SEVEN)
@@ -71,7 +67,6 @@ def check_critical_hit(base_damage):
         return True
     else :
         return False
-    pass
 
 
 # 任务七：娜比娅的AI行动
@@ -82,8 +77,6 @@ def nabiya_ai_action(nabiya_hp):
         return 'defend'
     else :
         return 'attack'
-    pass
-
 
 # 任务八：核心战斗循环
 def main_battle_loop():
@@ -201,4 +194,3 @@ def main_battle_loop():
         # time.sleep(1)
     
     # 在这里写你的代码
-    pass
