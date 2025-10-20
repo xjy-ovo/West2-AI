@@ -24,6 +24,7 @@ for i in range(205,179,-1):
         
         # 处理标题和详情链接
         title = item.find("a")
+        link=''
         if title and title.string:  # 先判断title是否存在且有string属性
             print(title.string,end=' ')
             link = title.get("href")
@@ -40,6 +41,8 @@ for i in range(205,179,-1):
             print(person,end=' ')
         if not person:
             person = "无通知人"
+            
+        attach = requests.get(f"http://{link}",headers=headers)
         
         print()
   
